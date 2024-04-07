@@ -33,10 +33,10 @@ const Login = () => {
       const data = await response.json();
       setMessage(data.message);
 
-      if (remember) {
+      if (remember && data.success) {
         // Save identifier to local storage when "Remember Me" is checked
         localStorage.setItem("identifier", identifier);
-      } else {
+      } else if (!remember && data.success) {
         // Remove identifier from local storage if it exists
         localStorage.removeItem("identifier");
       }
