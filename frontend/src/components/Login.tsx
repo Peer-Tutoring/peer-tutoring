@@ -4,7 +4,16 @@ import React from "react";
 const Login = () => {
   const [identifier, setIdentifier] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [remember, setRemember] = React.useState(false);
   const [message, setMessage] = React.useState("");
+
+  React.useEffect(() => {
+    // Retrieve identifier from local storage when component mounts
+    const storedIdentifier = localStorage.getItem("identifier");
+    if (storedIdentifier) {
+      setIdentifier(storedIdentifier);
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,12 +26,20 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ identifier, password }),
+          body: JSON.stringify({ identifier, password, remember }),
         },
       );
 
       const data = await response.json();
       setMessage(data.message);
+
+      if (remember) {
+        // Save identifier to local storage when "Remember Me" is checked
+        localStorage.setItem("identifier", identifier);
+      } else {
+        // Remove identifier from local storage if it exists
+        localStorage.removeItem("identifier");
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -47,6 +64,17 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <div>
+          <input
+            type="checkbox"
+            id="remember"
+            name="remember"
+            checked={remember}
+            onChange={(e) => setRemember(e.target.checked)}
+            className="mr-2"
+          />
+          <label htmlFor="remember">Remember me</label>
+        </div>
         <button type="submit" className="rounded-md bg-red-700 p-3">
           Login
         </button>
@@ -57,4 +85,3 @@ const Login = () => {
 };
 
 export default Login;
-
