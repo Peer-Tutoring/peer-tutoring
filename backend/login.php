@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // Check if required fields are set
   if (!isset($data['identifier']) || !isset($data['password'])) {
-    $response = array('error' => true, 'message' => 'Email/Name or Password is missing');
+    $response = array('error' => true, 'message' => 'Email/Name or Password is missing', 'success' => false);
   } else {
     // Access individual fields
     $identifier = mysqli_real_escape_string($conn, $data['identifier']);
@@ -29,14 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $user = $checkResult->fetch_assoc();
       if (password_verify($password, $user['password'])) {
         // Password is correct
-        $response = array('error' => false, 'message' => 'Login successful', 'user' => $user);
+        $response = array('error' => false, 'message' => 'Login successful', 'user' => $user, 'success' => true);
       } else {
         // Password is incorrect
-        $response = array('error' => true, 'message' => 'Incorrect password');
+        $response = array('error' => true, 'message' => 'Incorrect password', 'success' => false);
       }
     } else {
       // User not found
-      $response = array('error' => true, 'message' => 'Incorrect email or name');
+      $response = array('error' => true, 'message' => 'Incorrect email or name', 'success' => false);
     }
   }
 
