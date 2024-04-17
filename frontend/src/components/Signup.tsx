@@ -1,7 +1,8 @@
 "use client";
-
 import React from "react";
-
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
   CardContent,
@@ -12,19 +13,52 @@ import {
 } from "./ui/card";
 
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@components/ui/form";
 
 const Signup = () => {
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
   const [message, setMessage] = React.useState("");
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const formSchema = z.object({
+    name: z.string().min(2, {
+      message: "Username must be at least 2 characters.",
+    }),
+    password: z
+      .string()
+      .min(8, {
+        message: "Password must be at least 8 characters.",
+      })
+      .regex(new RegExp(".*[A-Z].*"), {
+        message: "Password must contain at least one uppercase letter.",
+      })
+      .regex(new RegExp(".*[0-9].*"), {
+        message: "Password must contain at least one number.",
+      })
+      .regex(new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"), {
+        message: "Password must contain at least one special character.",
+      }),
+    email: z
+      .string()
+      .min(1, { message: "This field has to be filled." })
+      .email("This is not a valid email."),
+  });
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      password: undefined,
+      email: "",
+    },
+  });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(
         "http://localhost/peer-tutoring/backend/signup.php",
@@ -33,16 +67,15 @@ const Signup = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify(values),
         },
       );
-
       const data = await response.json();
       setMessage(data.message);
     } catch (error) {
       console.error("Error:", error);
     }
-  };
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -91,43 +124,67 @@ const Signup = () => {
               </span>
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Username</Label>
-              <Input
-                type="text"
-                id="signup-name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="text" id="signup-name" required />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                type="email"
-                id="signup-email"
-                placeholder="peer@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="email"
+                        id="signup-email"
+                        placeholder="peer@example.com"
+                        required
+                      />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
-                id="signup-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="password"
+                        id="signup-password"
+                        required
+                      />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <p>{message}</p>
-            <Button type="submit" className="w-full">
-              Create an account
-            </Button>
-          </form>
+              <Button type="submit" className="w-full">
+                Create an account
+              </Button>
+            </form>
+          </Form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
             <Link href="/auth/login" className="underline">
@@ -135,7 +192,9 @@ const Signup = () => {
             </Link>
           </div>
         </CardContent>
-        <CardFooter></CardFooter>
+        <CardFooter>
+          <p>{message}</p>
+        </CardFooter>
       </Card>
     </div>
   );

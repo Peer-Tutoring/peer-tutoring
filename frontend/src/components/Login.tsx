@@ -1,5 +1,8 @@
 "use client";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
   CardContent,
@@ -10,18 +13,37 @@ import {
 } from "./ui/card";
 
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@components/ui/form";
 
 const Login = () => {
-  const [identifier, setIdentifier] = React.useState("");
-  const [password, setPassword] = React.useState("");
   const [message, setMessage] = React.useState("");
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const formSchema = z.object({
+    identifier: z.string().min(2, {
+      message: "Username/Email must be at least 2 characters.",
+    }),
+    password: z.string().min(8, {
+      message: "Password must be at least 8 characters.",
+    }),
+  });
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      identifier: "",
+      password: "",
+    },
+  });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(
         "http://localhost/peer-tutoring/backend/login.php",
@@ -30,23 +52,15 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ identifier, password }),
+          body: JSON.stringify(values),
         },
       );
-
       const data = await response.json();
       setMessage(data.message);
-      if (data.success) {
-        setIdentifier("");
-        setPassword("");
-      } else {
-        setPassword("");
-      }
     } catch (error) {
       console.error("Error:", error);
     }
-  };
-
+  }
   return (
     <div className="flex min-h-screen items-center justify-center">
       <Card className="max-w-md">
@@ -92,48 +106,60 @@ const Login = () => {
               </span>
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="identifier">Email/Username</Label>
-              <Input
-                type="text"
-                id="login-identifier"
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-                required
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="identifier"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email/Username</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="#"
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
-              <Input
-                type="password"
-                id="login-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center">
+                      <FormLabel>Password</FormLabel>
+                      <Link
+                        href="#"
+                        className="ml-auto inline-block text-sm underline"
+                      >
+                        Forgot your password?
+                      </Link>
+                    </div>
+                    <FormControl>
+                      <Input {...field} type="password" />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+            </form>
+            <div className="mt-4 text-center text-sm">
+              Don&apos;t have an account?{" "}
+              <Link href="/auth/register" className="underline">
+                Sign up
+              </Link>
             </div>
-            <p className="text-red-500">{message}</p>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </form>
-          <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link href="/signup" className="underline">
-              Sign up
-            </Link>
-          </div>
+          </Form>
         </CardContent>
-        <CardFooter></CardFooter>
+        <CardFooter>
+          <p>{message}</p>
+        </CardFooter>
       </Card>
     </div>
   );

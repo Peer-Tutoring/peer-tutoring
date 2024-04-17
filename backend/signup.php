@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
       if ($insertResult) {
         // Data inserted successfully
-        $response = array('error' => false, 'message' => 'Data received and inserted successfully');
+        $response = array('error' => false, 'message' => 'Account created successfully');
       } else {
         // Failed to insert data
         $response = array('error' => true, 'message' => 'Failed to insert data: ' . $conn->error);
