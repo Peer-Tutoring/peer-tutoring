@@ -45,7 +45,7 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className="flex min-h-screen items-center justify-center">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-xxl text-center">
@@ -130,11 +130,12 @@ const Signup = () => {
           </form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
-            <Link href="/signin" className="underline">
+            <Link href="/auth/login" className="underline">
               Sign in
             </Link>
           </div>
         </CardContent>
+        <CardFooter></CardFooter>
       </Card>
     </div>
   );

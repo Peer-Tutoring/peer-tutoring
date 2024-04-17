@@ -48,8 +48,8 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <Card className="mx-auto max-w-md">
+    <div className="flex min-h-screen items-center justify-center">
+      <Card className="max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Welcome Back!</CardTitle>
           <CardDescription>
@@ -133,6 +133,7 @@ const Login = () => {
             </Link>
           </div>
         </CardContent>
+        <CardFooter></CardFooter>
       </Card>
     </div>
   );
