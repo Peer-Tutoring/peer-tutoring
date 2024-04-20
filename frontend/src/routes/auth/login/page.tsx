@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
-
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -60,6 +59,11 @@ const LoginPage = () => {
       );
       const data = await response.json();
       setMessage(data.message);
+      if (data.success) {
+        localStorage.setItem("userId", data.user.id);
+        localStorage.setItem("username", data.user.name);
+        window.location.href = "/";
+      }
     } catch (error) {
       console.error("Error:", error);
     }
