@@ -76,6 +76,10 @@ const RegisterPage = () => {
       );
       const data = await response.json();
       setMessage(data.message);
+      console.log(data.success);
+      if (data.success) {
+        window.location.href = "/auth/login";
+      }
     } catch (error) {
       console.error("Error:", error);
     }
