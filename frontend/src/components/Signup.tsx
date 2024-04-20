@@ -45,7 +45,8 @@ const Signup = () => {
       })
       .regex(new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"), {
         message: "Password must contain at least one special character.",
-      }),
+      })
+      .trim(),
     email: z
       .string()
       .min(1, { message: "This field has to be filled." })
@@ -79,7 +80,7 @@ const Signup = () => {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="mb-4 flex min-h-screen items-center justify-center">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-xxl text-center">
