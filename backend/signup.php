@@ -27,21 +27,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $checkResult = $conn->query($checkQuery);
 
     if ($checkResult && $checkResult->fetch_assoc()['count'] > 0) {
-      $response = array('error' => true, 'message' => 'Name or Email is already in use');
+      $response = array('error' => true, 'message' => 'Name or Email is already in use', 'success' => false);
     } else {
       // Hash the password
       $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
       // Insert data into the database
-      $insertQuery = "INSERT INTO user (name, email, password) VALUES ('$name', '$email', '$hashedPassword')";
+      $insertQuery = "INSERT INTO user (name, email, password, date_created) VALUES ('$name', '$email', '$hashedPassword', '" . date('Y-m-d H:i:s') . "')";
       $insertResult = $conn->query($insertQuery);
 
       if ($insertResult) {
         // Data inserted successfully
-        $response = array('error' => false, 'message' => 'Account created successfully');
+        $response = array('error' => false, 'message' => 'Account created successfully', 'success' => true);
       } else {
         // Failed to insert data
-        $response = array('error' => true, 'message' => 'Failed to insert data: ' . $conn->error);
+        $response = array('error' => true, 'message' => 'Failed to insert data: ' . $conn->error, 'success' => false);
       }
     }
   }
