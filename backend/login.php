@@ -1,5 +1,6 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: *"); // replace the asterisk with domain in production
+header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
@@ -29,7 +30,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $user = $checkResult->fetch_assoc();
       if (password_verify($password, $user['password'])) {
         // Password is correct
-        $response = array('error' => false, 'message' => 'Login successful', 'user' => $user, 'success' => true);
+        // Generate a unique session_id
+        $session_id = bin2hex(random_bytes(25));
+        // Set the session expiration time to 7 days in the future
+        $expires_at = date('Y-m-d H:i:s', strtotime('+7 days'));
+
+        // Insert new session record into the session table
+        $insertSessionQuery = "INSERT INTO session (session_id, user_id, expires_at) VALUES ('$session_id', {$user['id']}, '$expires_at')";
+        $insertResult = $conn->query($insertSessionQuery);
+
+        if ($insertResult) {
+          // Set the session cookie to expire in 7 days
+          setcookie('session_id', $session_id, [
+            'expires' => time() + (7 * 24 * 60 * 60), // 7 days
+            'path' => '/',
+            // 'secure' => true, // Uncomment this when using HTTPS
+            'httponly' => true, // Help prevent XSS
+            'samesite' => 'Strict' // Further CSRF protection
+          ]);
+
+          // Insert successful
+          $response = array('error' => false, 'message' => 'Login successful', 'success' => true);
+        } else {
+          // Failed to insert session
+          $response = array('error' => true, 'message' => 'Failed to create session', 'success' => false);
+        }
       } else {
         // Password is incorrect
         $response = array('error' => true, 'message' => 'Incorrect password', 'success' => false);
