@@ -1,7 +1,3 @@
-if (localStorage.getItem("isAuthenticated")) {
-  window.location.href = "/";
-}
-
 import React from "react";
 
 import { Link } from "react-router-dom";
@@ -32,6 +28,10 @@ import { Button } from "@/components/ui/button";
 import GoogleLogin from "@/components/auth/GoogleLogin";
 
 const LoginPage = () => {
+  if (localStorage.getItem("isAuthenticated")) {
+    window.location.href = "/";
+  }
+
   const [message, setMessage] = React.useState("");
 
   const formSchema = z.object({
