@@ -62,6 +62,10 @@ const LoginForm = () => {
         localStorage.setItem("lastName", data.user.last_name);
         localStorage.setItem("email", data.user.email);
         localStorage.setItem("isAuthenticated", data.success);
+        if (data.isTutor) {
+          localStorage.setItem("subject", data.user.subject);
+          localStorage.setItem("rate", data.user.rate);
+        }
         window.location.href = "/";
       }
     } catch (error) {

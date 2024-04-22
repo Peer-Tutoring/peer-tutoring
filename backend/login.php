@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $tutor = $checkTutorResult->fetch_assoc();
         if (password_verify($password, $tutor['password'])) {
           // Password is correct
-          $response = array('error' => false, 'message' => 'Login successful', 'user' => array('id' => $tutor['tutor_id'], 'first_name' => $tutor['first_name'], 'last_name' => $tutor['last_name'], 'email' => $tutor['email'], 'subject' => $tutor['subject'], 'rate' => $tutor['rate']), 'success' => true);
+          $response = array('error' => false, 'message' => 'Login successful', 'user' => array('id' => $tutor['tutor_id'], 'first_name' => $tutor['first_name'], 'last_name' => $tutor['last_name'], 'email' => $tutor['email'], 'subject' => $tutor['subject'], 'rate' => $tutor['rate']), 'success' => true, 'isStudent' => false, 'isTutor' => true);
         } else {
           // Password is incorrect
           $response = array('error' => true, 'message' => 'Incorrect password', 'success' => false);
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $student = $checkStudentResult->fetch_assoc();
         if (password_verify($password, $student['password'])) {
           // Password is correct
-          $response = array('error' => false, 'message' => 'Login successful', 'user' => array('id' => $student['student_id'], 'first_name' => $student['first_name'], 'last_name' => $student['last_name'], 'email' => $student['email']), 'success' => true);
+          $response = array('error' => false, 'message' => 'Login successful', 'user' => array('id' => $student['student_id'], 'first_name' => $student['first_name'], 'last_name' => $student['last_name'], 'email' => $student['email']), 'success' => true, 'isStudent' => true, 'isTutor' => false);
         } else {
           // Password is incorrect
           $response = array('error' => true, 'message' => 'Incorrect password', 'success' => false);
