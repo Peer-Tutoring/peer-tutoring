@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Link } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
@@ -31,10 +29,12 @@ const StudentRegister = () => {
     window.location.href = "/";
   }
 
-  const [message, setMessage] = React.useState("");
   const formSchema = z.object({
-    name: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+    firstName: z.string().min(2, {
+      message: "First Name must be at least 2 characters.",
+    }),
+    lastName: z.string().min(2, {
+      message: "Last Name must be at least 2 characters.",
     }),
     password: z
       .string()
@@ -59,7 +59,8 @@ const StudentRegister = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       password: "",
       email: "",
     },
@@ -67,7 +68,7 @@ const StudentRegister = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(
-        "http://localhost/peer-tutoring/backend/signup.php",
+        "http://localhost/peer-tutoring/backend/student-register.php",
         {
           method: "POST",
           headers: {
@@ -77,8 +78,7 @@ const StudentRegister = () => {
         },
       );
       const data = await response.json();
-      setMessage(data.message);
-      console.log(data.success);
+      console.log(`Success: ${data.success} Message: ${data.message}`);
       if (data.success) {
         window.location.href = "/auth/login";
       }
@@ -99,20 +99,36 @@ const StudentRegister = () => {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="text" id="signup-name" required />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="text" id="signup-name" required />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="text" id="signup-name" required />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="email"
@@ -165,9 +181,7 @@ const StudentRegister = () => {
           </Link>
         </div>
       </CardContent>
-      <CardFooter>
-        <p>{message}</p>
-      </CardFooter>
+      <CardFooter />
     </Card>
   );
 };
