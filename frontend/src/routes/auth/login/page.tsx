@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,8 +27,6 @@ const LoginPage = () => {
   if (localStorage.getItem("isAuthenticated")) {
     window.location.href = "/";
   }
-
-  const [message, setMessage] = React.useState("");
 
   const formSchema = z.object({
     identifier: z.string().min(2, {
@@ -133,9 +129,7 @@ const LoginPage = () => {
             </div>
           </Form>
         </CardContent>
-        <CardFooter>
-          <p>{message}</p>
-        </CardFooter>
+        <CardFooter />
       </Card>
     </div>
   );
