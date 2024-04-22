@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 
 const LoginForm = () => {
   const formSchema = z.object({
-    identifier: z.string().min(2, {
+    email: z.string().min(2, {
       message: "Username/Email must be at least 2 characters.",
     }),
     password: z.string().min(8, {
@@ -37,7 +37,7 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      identifier: "",
+      email: "",
       password: "",
     },
   });
@@ -74,7 +74,7 @@ const LoginForm = () => {
       <CardHeader>
         <CardTitle className="text-center text-2xl">Welcome Back!</CardTitle>
         <CardDescription>
-          Enter your Email or Username below to login back
+          Enter your Email below to login back to your account
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -82,10 +82,10 @@ const LoginForm = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
             <FormField
               control={form.control}
-              name="identifier"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email/Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
