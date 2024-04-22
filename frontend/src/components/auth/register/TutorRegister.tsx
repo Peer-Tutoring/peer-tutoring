@@ -32,10 +32,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const TutorRegister = () => {
-  if (localStorage.getItem("isAuthenticated")) {
-    window.location.href = "/";
-  }
-
   const formSchema = z.object({
     firstName: z.string().min(2, {
       message: "First Name must be at least 2 characters.",

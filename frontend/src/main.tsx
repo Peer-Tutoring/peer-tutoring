@@ -1,36 +1,44 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 
 import "./main.css";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import RootPage from "./Root.tsx";
-import LoginPage from "@/routes/auth/login/page.tsx";
-import RegisterPage from "@/routes/auth/register/page.tsx";
-import ForgotPasswordPage from "@/routes/auth/forgot-password/page.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import UnprotectedRoute from "./components/UnprotectedRoute.tsx";
+import Loading from "./components/Loading.tsx";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootPage />,
-  },
-  {
-    path: "/auth/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/auth/register",
-    element: <RegisterPage />,
-  },
-  {
-    path: "/auth/forgot-password",
-    element: <ForgotPasswordPage />,
-  },
-]);
+const HomePage = lazy(() => import("./Root.tsx"));
+
+const DashboardPage = lazy(() => import("@/routes/dashboard/page.tsx"));
+
+const LoginPage = lazy(() => import("@/routes/auth/login/page.tsx"));
+const RegisterPage = lazy(() => import("@/routes/auth/register/page.tsx"));
+const ForgotPasswordPage = lazy(
+  () => import("@/routes/auth/forgot-password/page.tsx"),
+);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Suspense fallback={<Loading />}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+          </Route>
+
+          <Route element={<UnprotectedRoute />}>
+            <Route path="/auth/login" element={<LoginPage />} />
+            <Route path="/auth/register" element={<RegisterPage />} />
+            <Route
+              path="/auth/forgot-password"
+              element={<ForgotPasswordPage />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Suspense>
   </React.StrictMode>,
 );

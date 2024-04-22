@@ -25,10 +25,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const LoginForm = () => {
-  if (localStorage.getItem("isAuthenticated")) {
-    window.location.href = "/";
-  }
-
   const formSchema = z.object({
     identifier: z.string().min(2, {
       message: "Username/Email must be at least 2 characters.",
