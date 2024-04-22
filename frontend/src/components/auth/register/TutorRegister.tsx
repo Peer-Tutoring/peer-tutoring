@@ -222,7 +222,7 @@ const TutorRegister = () => {
               name="rate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tutor Rate</FormLabel>
+                  <FormLabel>SAR per hour</FormLabel>
                   <FormControl>
                     <Input {...field} type="number" id="rate" required />
                   </FormControl>
