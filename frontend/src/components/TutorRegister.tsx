@@ -63,6 +63,9 @@ const TutorRegister = () => {
       .min(1, { message: "This field has to be filled." })
       .email("This is not a valid email."),
     subject: z.string().min(1, { message: "Please select a subject." }),
+    rate: z.coerce
+      .number()
+      .min(0, { message: "Rate must be a positive number." }),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -72,12 +75,13 @@ const TutorRegister = () => {
       password: "",
       email: "",
       subject: "",
+      rate: 0,
     },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(
-        "http://localhost/peer-tutoring/backend/signup.php",
+        "http://localhost/peer-tutoring/backend/tutor-register.php",
         {
           method: "POST",
           headers: {
@@ -116,7 +120,12 @@ const TutorRegister = () => {
                   <FormItem>
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                      <Input {...field} type="text" id="signup-name" required />
+                      <Input
+                        {...field}
+                        type="text"
+                        id="signup-fname"
+                        required
+                      />
                     </FormControl>
                     <FormDescription />
                     <FormMessage />
@@ -130,7 +139,12 @@ const TutorRegister = () => {
                   <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                      <Input {...field} type="text" id="signup-name" required />
+                      <Input
+                        {...field}
+                        type="text"
+                        id="signup-lname"
+                        required
+                      />
                     </FormControl>
                     <FormDescription />
                     <FormMessage />
@@ -199,6 +213,20 @@ const TutorRegister = () => {
                       <SelectItem value="programming">Programming</SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="rate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tutor Rate</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="number" id="rate" required />
+                  </FormControl>
                   <FormDescription />
                   <FormMessage />
                 </FormItem>

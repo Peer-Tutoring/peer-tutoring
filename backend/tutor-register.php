@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $data = json_decode($inputData, true);
 
   // Check if required fields are set
-  if (!isset($data['firstName']) || !isset($data['lastName']) || !isset($data['email']) || !isset($data['password']) || !isset($data['subject'])) {
+  if (!isset($data['firstName']) || !isset($data['lastName']) || !isset($data['email']) || !isset($data['password']) || !isset($data['subject']) || !isset($data['rate'])) {
     $response = array('error' => true, 'message' => 'Required fields are missing');
   } else {
     // Access individual fields
@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = mysqli_real_escape_string($conn, $data['email']);
     $password = mysqli_real_escape_string($conn, $data['password']);
     $subject = mysqli_real_escape_string($conn, $data['subject']);
+    $rate = mysqli_real_escape_string($conn, $data['rate']);
 
     // Check if email is already used in student table
     $checkStudentQuery = "SELECT COUNT(*) AS count FROM student WHERE email = '$email'";
@@ -39,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
       // Insert data into the database
-      $insertQuery = "INSERT INTO tutor (first_name, last_name, email, password, subject, date_created) VALUES ('$firstName', '$lastName', '$email', '$hashedPassword', '$subject', NOW())";
+      $insertQuery = "INSERT INTO tutor (first_name, last_name, email, password, subject, rate, date_created) VALUES ('$firstName', '$lastName', '$email', '$hashedPassword', '$subject', '$rate', NOW())";
       $insertResult = $conn->query($insertQuery);
 
       if ($insertResult) {

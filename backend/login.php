@@ -21,15 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = mysqli_real_escape_string($conn, $data['password']);
 
     // Check if email exists
-    $checkQuery = "SELECT id, first_name, last_name, email, password FROM user WHERE email = '$email'";
+    $checkQuery = "SELECT tutor_id, first_name, last_name, email, subject, rate, password FROM tutor WHERE email = '$email'";
     $checkResult = $conn->query($checkQuery);
-
     if ($checkResult && $checkResult->num_rows > 0) {
       // User found, verify password
-      $user = $checkResult->fetch_assoc();
-      if (password_verify($password, $user['password'])) {
+      $tutor = $checkResult->fetch_assoc();
+      if (password_verify($password, $tutor['password'])) {
         // Password is correct
-        $response = array('error' => false, 'message' => 'Login successful', 'user' => array('id' => $user['id'], 'first_name' => $user['first_name'], 'last_name' => $user['last_name'], 'email' => $user['email']), 'success' => true);
+        $response = array('error' => false, 'message' => 'Login successful', 'user' => array('id' => $tutor['tutor_id'], 'first_name' => $tutor['first_name'], 'last_name' => $tutor['last_name'], 'email' => $tutor['email'], 'subject' => $tutor['subject'], 'rate' => $tutor['rate']), 'success' => true);
       } else {
         // Password is incorrect
         $response = array('error' => true, 'message' => 'Incorrect password', 'success' => false);

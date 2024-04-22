@@ -107,7 +107,12 @@ const StudentRegister = () => {
                   <FormItem>
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                      <Input {...field} type="text" id="signup-name" required />
+                      <Input
+                        {...field}
+                        type="text"
+                        id="signup-fname"
+                        required
+                      />
                     </FormControl>
                     <FormDescription />
                     <FormMessage />
@@ -121,7 +126,12 @@ const StudentRegister = () => {
                   <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                      <Input {...field} type="text" id="signup-name" required />
+                      <Input
+                        {...field}
+                        type="text"
+                        id="signup-lname"
+                        required
+                      />
                     </FormControl>
                     <FormDescription />
                     <FormMessage />

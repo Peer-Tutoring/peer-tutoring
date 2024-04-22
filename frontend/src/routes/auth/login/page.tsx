@@ -29,8 +29,8 @@ const LoginPage = () => {
   }
 
   const formSchema = z.object({
-    identifier: z.string().min(2, {
-      message: "Username/Email must be at least 2 characters.",
+    email: z.string().min(2, {
+      message: "Email must be at least 2 characters.",
     }),
     password: z.string().min(8, {
       message: "Password must be at least 8 characters.",
@@ -39,7 +39,7 @@ const LoginPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      identifier: "",
+      email: "",
       password: "",
     },
   });
@@ -56,6 +56,7 @@ const LoginPage = () => {
         },
       );
       const data = await response.json();
+      console.log(data.message);
       console.log(`Success: ${data.success} Message: ${data.message}`);
       if (data.success) {
         localStorage.setItem("userId", data.user.id);
@@ -75,7 +76,7 @@ const LoginPage = () => {
         <CardHeader>
           <CardTitle className="text-center text-2xl">Welcome Back!</CardTitle>
           <CardDescription>
-            Enter your Email or Username below to login back
+            Enter your Email to login back to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -83,12 +84,12 @@ const LoginPage = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
               <FormField
                 control={form.control}
-                name="identifier"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email/Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} type="email" />
                     </FormControl>
                     <FormDescription />
                     <FormMessage />
