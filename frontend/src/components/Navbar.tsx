@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Menu, X } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,28 +35,9 @@ const Navbar: React.FC = () => {
           </h1>
         </div>
         <div className="sm:hidden">
-          <button
-            onClick={toggleMenu}
-            type="button"
-            className="text-gray-400 hover:text-white focus:text-white focus:outline-none"
-            aria-label="Toggle menu"
-          >
-            <svg viewBox="0 0 20 20" fill="currentColor" className="h-6 w-6">
-              {isOpen ? (
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M14.293 5.293a1 1 0 1 0-1.414-1.414L10 8.586 7.707 6.293a1 1 0 1 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l3-3z"
-                />
-              ) : (
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M4 6a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1z"
-                />
-              )}
-            </svg>
-          </button>
+          <Button variant={"outline"} size={"icon"} onClick={toggleMenu}>
+            {!isOpen ? <Menu /> : <X />}
+          </Button>
         </div>
       </div>
       <nav
