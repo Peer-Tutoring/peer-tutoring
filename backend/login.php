@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = mysqli_real_escape_string($conn, $data['password']);
 
     // Check if email exists
-    $checkQuery = "SELECT * FROM user WHERE email = '$email'";
+    $checkQuery = "SELECT id, first_name, last_name, email, password FROM user WHERE email = '$email'";
     $checkResult = $conn->query($checkQuery);
 
     if ($checkResult && $checkResult->num_rows > 0) {
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $user = $checkResult->fetch_assoc();
       if (password_verify($password, $user['password'])) {
         // Password is correct
-        $response = array('error' => false, 'message' => 'Login successful', 'user' => array('id' => $user['id'], 'email' => $user['email']), 'success' => true);
+        $response = array('error' => false, 'message' => 'Login successful', 'user' => array('id' => $user['id'], 'first_name' => $user['first_name'], 'last_name' => $user['last_name'], 'email' => $user['email']), 'success' => true);
       } else {
         // Password is incorrect
         $response = array('error' => true, 'message' => 'Incorrect password', 'success' => false);

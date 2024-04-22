@@ -60,10 +60,12 @@ const LoginPage = () => {
         },
       );
       const data = await response.json();
-      setMessage(data.message);
+      console.log(`Success: ${data.success} Message: ${data.message}`);
       if (data.success) {
         localStorage.setItem("userId", data.user.id);
-        localStorage.setItem("username", data.user.name);
+        localStorage.setItem("firstName", data.user.first_name);
+        localStorage.setItem("lastName", data.user.last_name);
+        localStorage.setItem("email", data.user.email);
         localStorage.setItem("isAuthenticated", data.success);
         window.location.href = "/";
       }
