@@ -21,14 +21,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const StudentRegister = () => {
-  if (localStorage.getItem("isAuthenticated")) {
-    window.location.href = "/";
-  }
-
+const TutorRegister = () => {
   const formSchema = z.object({
     firstName: z.string().min(2, {
       message: "First Name must be at least 2 characters.",
@@ -55,7 +58,12 @@ const StudentRegister = () => {
       .string()
       .min(1, { message: "This field has to be filled." })
       .email("This is not a valid email."),
+    subject: z.string().min(1, { message: "Please select a subject." }),
+    rate: z.coerce
+      .number()
+      .min(0, { message: "Rate must be a positive number." }),
   });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,12 +71,15 @@ const StudentRegister = () => {
       lastName: "",
       password: "",
       email: "",
+      subject: "",
+      rate: 0,
     },
   });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(
-        "http://localhost/peer-tutoring/backend/student-register.php",
+        "http://localhost/peer-tutoring/backend/tutor-register.php",
         {
           method: "POST",
           headers: {
@@ -86,11 +97,12 @@ const StudentRegister = () => {
       console.error("Error:", error);
     }
   }
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
         <CardTitle className="text-xxl text-center">
-          Register as a Student!
+          Register as a Tutor!
         </CardTitle>
         <CardDescription>
           Enter your information to create an account
@@ -159,7 +171,6 @@ const StudentRegister = () => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="password"
@@ -173,6 +184,47 @@ const StudentRegister = () => {
                       id="signup-password"
                       required
                     />
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="subject"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Subjects</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a subject you're good at" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="math">Mathematics</SelectItem>
+                      <SelectItem value="physics">Physics</SelectItem>
+                      <SelectItem value="chemistry">Chemistry</SelectItem>
+                      <SelectItem value="programming">Programming</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="rate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tutor Rate</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="number" id="rate" required />
                   </FormControl>
                   <FormDescription />
                   <FormMessage />
@@ -196,4 +248,4 @@ const StudentRegister = () => {
   );
 };
 
-export default StudentRegister;
+export default TutorRegister;
