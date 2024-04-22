@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Link } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
@@ -23,6 +21,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -31,10 +36,12 @@ const TutorRegister = () => {
     window.location.href = "/";
   }
 
-  const [message, setMessage] = React.useState("");
   const formSchema = z.object({
-    name: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+    firstName: z.string().min(2, {
+      message: "First Name must be at least 2 characters.",
+    }),
+    lastName: z.string().min(2, {
+      message: "Last Name must be at least 2 characters.",
     }),
     password: z
       .string()
@@ -55,13 +62,16 @@ const TutorRegister = () => {
       .string()
       .min(1, { message: "This field has to be filled." })
       .email("This is not a valid email."),
+    subject: z.string().min(1, { message: "Please select a subject." }),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       password: "",
       email: "",
+      subject: "",
     },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -77,8 +87,7 @@ const TutorRegister = () => {
         },
       );
       const data = await response.json();
-      setMessage(data.message);
-      console.log(data.success);
+      console.log(`Success: ${data.success} Message: ${data.message}`);
       if (data.success) {
         window.location.href = "/auth/login";
       }
@@ -99,20 +108,36 @@ const TutorRegister = () => {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="text" id="signup-name" required />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="text" id="signup-name" required />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="text" id="signup-name" required />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="email"
@@ -152,6 +177,33 @@ const TutorRegister = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="subject"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Subjects</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a subject you're good at" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="math">Mathematics</SelectItem>
+                      <SelectItem value="physics">Physics</SelectItem>
+                      <SelectItem value="chemistry">Chemistry</SelectItem>
+                      <SelectItem value="programming">Programming</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button type="submit" className="w-full">
               Create an account
             </Button>
@@ -164,9 +216,7 @@ const TutorRegister = () => {
           </Link>
         </div>
       </CardContent>
-      <CardFooter>
-        <p>{message}</p>
-      </CardFooter>
+      <CardFooter />
     </Card>
   );
 };
