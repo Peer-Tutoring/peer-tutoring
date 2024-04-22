@@ -64,6 +64,7 @@ const TutorRegister = () => {
       .email("This is not a valid email."),
     subject: z.string().min(1, { message: "Please select a subject." }),
   });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -74,6 +75,7 @@ const TutorRegister = () => {
       subject: "",
     },
   });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(
@@ -95,6 +97,7 @@ const TutorRegister = () => {
       console.error("Error:", error);
     }
   }
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>

@@ -56,6 +56,7 @@ const StudentRegister = () => {
       .min(1, { message: "This field has to be filled." })
       .email("This is not a valid email."),
   });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -65,6 +66,7 @@ const StudentRegister = () => {
       email: "",
     },
   });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(
@@ -86,6 +88,7 @@ const StudentRegister = () => {
       console.error("Error:", error);
     }
   }
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
