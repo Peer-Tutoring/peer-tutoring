@@ -35,7 +35,12 @@ const Navbar: React.FC = () => {
           </h1>
         </div>
         <div className="sm:hidden">
-          <Button variant={"outline"} size={"icon"} onClick={toggleMenu}>
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            onClick={toggleMenu}
+            className="border-none bg-gray-700"
+          >
             {!isOpen ? <Menu /> : <X />}
           </Button>
         </div>
