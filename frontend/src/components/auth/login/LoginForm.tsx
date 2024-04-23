@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import {
   Card,
@@ -23,8 +25,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { AlertCircle } from "lucide-react";
+import "./alert.css";
 
 const LoginForm = () => {
+  const [error, setError] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [toggle, setToggle] = useState(false);
+
   const formSchema = z.object({
     email: z.string().min(2, {
       message: "Username/Email must be at least 2 characters.",
@@ -42,6 +50,15 @@ const LoginForm = () => {
     },
   });
 
+  useEffect(() => {
+    if (error !== "") {
+      setShowAlert(false); // Reset showAlert state
+      setTimeout(() => {
+        setShowAlert(true);
+      }, 10); // Set showAlert to true after a brief delay
+    }
+  }, [toggle]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch(
@@ -55,8 +72,9 @@ const LoginForm = () => {
         },
       );
       const data = await response.json();
-      console.log(`Success: ${data.success} Message: ${data.message}`);
       if (data.success) {
+        setError("");
+        setShowAlert(false);
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("firstName", data.user.first_name);
         localStorage.setItem("lastName", data.user.last_name);
@@ -67,73 +85,89 @@ const LoginForm = () => {
           localStorage.setItem("rate", data.user.rate);
         }
         window.location.href = "/";
+      } else {
+        setError(`${data.message}. Please try again.`);
+        setToggle(!toggle);
       }
     } catch (error) {
       console.error("Error:", error);
+      setError("An error occurred. Please try again.");
+      setToggle(!toggle);
     }
   }
 
   return (
-    <Card className="max-w-md">
-      <CardHeader>
-        <CardTitle className="text-center text-2xl">Welcome Back!</CardTitle>
-        <CardDescription>
-          Enter your Email below to login back to your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex items-center">
-                    <FormLabel>Password</FormLabel>
-                    <Link
-                      to="/auth/forgot-password"
-                      className="ml-auto inline-block text-sm underline"
-                    >
-                      Forgot your password?
-                    </Link>
-                  </div>
-                  <FormControl>
-                    <Input {...field} type="password" />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </form>
-          <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link to="/auth/register" className="underline">
-              Sign up
-            </Link>
-          </div>
-        </Form>
-      </CardContent>
-      <CardFooter />
-    </Card>
+    <>
+      {showAlert && (
+        <div className="absolute top-0 flex justify-center">
+          <Alert variant="destructive" className="slide-down fade-up">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        </div>
+      )}
+      <Card className="max-w-md">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl">Welcome Back!</CardTitle>
+          <CardDescription>
+            Enter your Email below to login back to your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center">
+                      <FormLabel>Password</FormLabel>
+                      <Link
+                        to="/auth/forgot-password"
+                        className="ml-auto inline-block text-sm underline"
+                      >
+                        Forgot your password?
+                      </Link>
+                    </div>
+                    <FormControl>
+                      <Input {...field} type="password" />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+            </form>
+            <div className="mt-4 text-center text-sm">
+              Don&apos;t have an account?{" "}
+              <Link to="/auth/register" className="underline">
+                Sign up
+              </Link>
+            </div>
+          </Form>
+        </CardContent>
+        <CardFooter />
+      </Card>
+    </>
   );
 };
 
