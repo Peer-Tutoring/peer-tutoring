@@ -9,12 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Menu, X } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const name = localStorage.getItem("username");
+  const initials = `${localStorage.getItem("firstName")?.charAt(0).toUpperCase()}${localStorage.getItem("lastName")?.charAt(0).toUpperCase()}`;
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -54,12 +54,8 @@ const Navbar: React.FC = () => {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage
-                  src="https://t3.ftcdn.net/jpg/06/19/26/46/360_F_619264680_x2PBdGLF54sFe7kTBtAvZnPyXgvaRw0Y.jpg"
-                  alt="profile image"
-                />
-                <AvatarFallback>
-                  {name ? name.charAt(0).toUpperCase() : ""}
+                <AvatarFallback className=" bg-white text-black">
+                  {initials ? initials : ""}
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
