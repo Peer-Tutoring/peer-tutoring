@@ -26,7 +26,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
-import "./alert.css";
 
 const LoginForm = () => {
   const [error, setError] = useState("");
@@ -52,10 +51,11 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (error !== "") {
-      setShowAlert(false); // Reset showAlert state
-      setTimeout(() => {
-        setShowAlert(true);
-      }, 10); // Set showAlert to true after a brief delay
+      setShowAlert(true); // Show the alert
+      const timeout = setTimeout(() => {
+        setShowAlert(false);
+      }, 2000);
+      return () => clearTimeout(timeout);
     }
   }, [toggle]);
 
@@ -99,8 +99,8 @@ const LoginForm = () => {
   return (
     <>
       {showAlert && (
-        <div className="absolute top-0 flex justify-center">
-          <Alert variant="destructive" className="slide-down fade-up">
+        <div className="absolute top-0 flex justify-center backdrop-blur-sm backdrop-filter">
+          <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
