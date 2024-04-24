@@ -7,6 +7,7 @@ import {
   Card,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface BookingCardProps {
   name: string;
@@ -40,7 +41,13 @@ const BookingCard = ({ name, role, hourlyRate }: BookingCardProps) => {
         </div>
       </CardContent>
       <CardFooter>
-        <Button>Book</Button>
+        {localStorage.getItem("isAuthenticated") ? (
+          <Button>Book</Button>
+        ) : (
+          <Button asChild>
+            <Link to="/auth/login">Login to Book</Link>
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
