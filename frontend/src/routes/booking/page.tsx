@@ -1,29 +1,27 @@
+import { useEffect, useState } from "react";
 import BookingCard from "@/components/booking/BookingCard";
 
 const BookingPage = () => {
-  const randomTutors = [
-    {
-      name: "Khalil Melhem",
-      role: "Software Tutor?",
-      hourlyRate: 777,
-    },
-    {
-      name: "Adnan Sharr",
-      role: "Software Tutor?",
-      hourlyRate: 777,
-    },
-    {
-      name: "John Doe",
-      role: "Math Tutor",
-      hourlyRate: 888,
-    },
-  ];
+  const [tutors, setTutors] = useState([{ name: "", role: "", hourlyRate: 0 }]);
+
+  useEffect(() => {
+    fetch("http://localhost/peer-tutoring/backend/tutors.php")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setTutors(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching tutor data:", error);
+      });
+  }, []);
+  console.log(tutors);
 
   return (
     <section className="min-h-screen bg-primary">
       <div className="mx-auto grid w-[95vw] grid-cols-1 gap-7 py-24 lg:grid-cols-2 xl:grid-cols-3">
-        {randomTutors.map((tutor) => (
-          <BookingCard {...tutor} />
+        {tutors.map((tutor, index) => (
+          <BookingCard key={index} {...tutor} />
         ))}
       </div>
     </section>

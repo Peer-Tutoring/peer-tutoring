@@ -58,6 +58,12 @@ const Navbar: React.FC = () => {
             isOpen ? "block" : "hidden"
           } px-2 pb-4 pt-2 sm:flex sm:p-0`}
         >
+          <Link
+            to="./booking"
+            className="mt-1 block rounded px-2 py-1 font-semibold text-white  sm:ml-2 sm:mt-0"
+          >
+            <Button className="hover:bg-gray-700">Booking</Button>
+          </Link>
           {localStorage.getItem("isAuthenticated") ? (
             <DropdownMenu>
               <DropdownMenuTrigger>
