@@ -10,6 +10,7 @@ import UnprotectedRoute from "./components/UnprotectedRoute.tsx";
 import Loading from "./components/Loading.tsx";
 
 const HomePage = lazy(() => import("./Root.tsx"));
+const BookingPage = lazy(() => import("@/routes/booking/page.tsx"));
 
 const DashboardPage = lazy(() => import("@/routes/dashboard/page.tsx"));
 
@@ -25,6 +26,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/booking" element={<BookingPage />} />
+
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
           </Route>
