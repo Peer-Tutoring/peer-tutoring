@@ -22,12 +22,9 @@ if ($result) {
     );
   }
 
-  // Set the response content type to JSON
   header('Content-Type: application/json');
 
-  // Encode the array of tutors as JSON and echo it
   echo json_encode($tutors);
 } else {
-  // If the query fails, return an error message
   echo json_encode(array('error' => 'Failed to fetch data from the database'));
 }
