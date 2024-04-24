@@ -8,14 +8,12 @@ const BookingPage = () => {
     fetch("http://localhost/peer-tutoring/backend/tutors.php")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setTutors(data);
       })
       .catch((error) => {
         console.error("Error fetching tutor data:", error);
       });
   }, []);
-  console.log(tutors);
 
   return (
     <section className="min-h-screen bg-primary">

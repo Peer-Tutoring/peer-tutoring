@@ -106,7 +106,6 @@ const TutorRegister = () => {
         },
       );
       const data = await response.json();
-      console.log(`Success: ${data.success} Message: ${data.message}`);
       if (data.success) {
         setError("");
         setShowAlert(false);
