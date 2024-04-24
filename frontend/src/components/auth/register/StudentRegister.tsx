@@ -112,7 +112,7 @@ const StudentRegister = () => {
   return (
     <>
       {showAlert && (
-        <div className=" flex w-full justify-center">
+        <div className="flex w-full justify-center">
           <div className="fixed top-3 flex justify-center backdrop-blur-sm backdrop-filter">
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
