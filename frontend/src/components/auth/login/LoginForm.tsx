@@ -124,7 +124,7 @@ const LoginForm = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} type="email" required />
                     </FormControl>
                     <FormDescription />
                     <FormMessage />
@@ -146,7 +146,7 @@ const LoginForm = () => {
                       </Link>
                     </div>
                     <FormControl>
-                      <Input {...field} type="password" />
+                      <Input {...field} type="password" required />
                     </FormControl>
                     <FormDescription />
                     <FormMessage />
