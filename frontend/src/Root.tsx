@@ -1,10 +1,13 @@
 import Navbar from "@/components/Navbar";
+import { Hero } from "./components/Hero";
+import { Team } from "./components/Team";
 
 function RootPage() {
   return (
     <>
       <Navbar />
-      <main className="flex min-h-screen items-center justify-center"></main>
+      <Hero />
+      <Team />
     </>
   );
 }
