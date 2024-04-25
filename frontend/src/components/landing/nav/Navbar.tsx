@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
+
+import { Button } from "@/components/ui/button";
+import AvatarMenu from "./parts/AvatarMenu";
+
 import { Menu, X } from "lucide-react";
-import AvatarMenu from "./AvatarMenu";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

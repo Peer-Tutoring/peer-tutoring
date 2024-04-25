@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import { Link } from "react-router-dom";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Link } from "react-router-dom";
 
 const AvatarMenu = () => {
   const initials = `${localStorage.getItem("firstName")?.charAt(0).toUpperCase()}${localStorage.getItem("lastName")?.charAt(0).toUpperCase()}`;
@@ -39,8 +40,8 @@ const AvatarMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarFallback className=" bg-white text-black">
-            {initials ? initials : ""}
+          <AvatarFallback className="bg-white text-black">
+            {initials && initials}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -50,12 +51,10 @@ const AvatarMenu = () => {
         <DropdownMenuItem>
           <Link to="/dashboard">Dashboard</Link>
         </DropdownMenuItem>
-        {!isLarge ? (
+        {!isLarge && (
           <DropdownMenuItem>
             <Link to="/booking">Booking</Link>
           </DropdownMenuItem>
-        ) : (
-          <></>
         )}
         <DropdownMenuItem>
           <Link to="/" onClick={handleLogout}>

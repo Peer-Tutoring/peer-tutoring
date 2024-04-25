@@ -36,7 +36,8 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+
+import { API_ENDPOINTS } from "@/lib/apiConfig";
 
 interface BookingSessionProps {
   tutor_id: number;
@@ -98,7 +99,7 @@ interface ProfileFormProps extends React.ComponentProps<"form"> {
   hourlyRate: number;
 }
 
-function ProfileForm({ className, tutor_id, hourlyRate }: ProfileFormProps) {
+function ProfileForm({ tutor_id, hourlyRate }: ProfileFormProps) {
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
 
@@ -139,16 +140,13 @@ function ProfileForm({ className, tutor_id, hourlyRate }: ProfileFormProps) {
       rate: hourlyRate,
     };
     try {
-      const response = await fetch(
-        "http://localhost/peer-tutoring/backend/book-session.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+      const response = await fetch(API_ENDPOINTS.BOOK_SESSION, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(formData),
+      });
       const data = await response.json();
       if (data.success) {
         window.location.href = "/booking";
@@ -164,7 +162,7 @@ function ProfileForm({ className, tutor_id, hourlyRate }: ProfileFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("grid items-start gap-4", className)}
+        className="grid items-start gap-4"
       >
         <FormField
           control={form.control}

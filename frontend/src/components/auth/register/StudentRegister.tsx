@@ -25,6 +25,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+import { API_ENDPOINTS } from "@/lib/apiConfig";
+
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
 const StudentRegister = () => {
@@ -83,16 +86,13 @@ const StudentRegister = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch(
-        "http://localhost/peer-tutoring/backend/student-register.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
+      const response = await fetch(API_ENDPOINTS.STUDENT_REGISTER, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(values),
+      });
       const data = await response.json();
       if (data.success) {
         setError("");

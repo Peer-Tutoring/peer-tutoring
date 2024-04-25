@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+
 import BookingCard from "@/components/booking/BookingCard";
+
+import { API_ENDPOINTS } from "@/lib/apiConfig";
 
 const BookingPage = () => {
   const [tutors, setTutors] = useState([
@@ -7,7 +10,7 @@ const BookingPage = () => {
   ]);
 
   useEffect(() => {
-    fetch("http://localhost/peer-tutoring/backend/tutors.php")
+    fetch(API_ENDPOINTS.TUTORS)
       .then((response) => response.json())
       .then((data) => {
         setTutors(data);

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import {
   CardTitle,
   CardDescription,
@@ -7,8 +9,8 @@ import {
   Card,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import BookSession from "@/components/BookSession";
+
+import BookSession from "./BookSession";
 
 interface BookingCardProps {
   tutor_id: number;

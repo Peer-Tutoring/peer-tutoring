@@ -18,7 +18,7 @@ const teamList = [
   },
 ];
 
-export const Team = () => {
+const Team = () => {
   return (
     <section id="team" className="container pb-24 sm:pb-32">
       <h2 className="text-3xl font-bold md:text-4xl">
@@ -62,3 +62,5 @@ export const Team = () => {
     </section>
   );
 };
+
+export default Team;

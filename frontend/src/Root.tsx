@@ -1,6 +1,4 @@
-import Navbar from "@/components/Navbar";
-import { Hero } from "./components/Hero";
-import { Team } from "./components/Team";
+import { Navbar, Hero, Team } from "@/components/landing/index";
 
 function RootPage() {
   return (
