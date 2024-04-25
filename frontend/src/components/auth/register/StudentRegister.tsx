@@ -25,12 +25,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
 const StudentRegister = () => {
   const [error, setError] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const formSchema = z.object({
     firstName: z.string().min(2, {
@@ -202,12 +203,25 @@ const StudentRegister = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        type="password"
-                        id="signup-password"
-                        required
-                      />
+                      <div className="relative">
+                        <Input
+                          {...field}
+                          type={showPassword ? "text" : "password"}
+                          id="signup-password"
+                          required
+                        />
+                        <button
+                          type="button"
+                          className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-5 w-5 text-gray-500" />
+                          ) : (
+                            <Eye className="h-5 w-5 text-gray-500" />
+                          )}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormDescription />
                     <FormMessage />
