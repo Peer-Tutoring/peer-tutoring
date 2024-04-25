@@ -1,37 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Menu, X } from "lucide-react";
-import EditProfile from "./EditProfile";
+import AvatarMenu from "./AvatarMenu";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const initials = `${localStorage.getItem("firstName")?.charAt(0).toUpperCase()}${localStorage.getItem("lastName")?.charAt(0).toUpperCase()}`;
+  const [isLarge, setIsLarge] = useState(window.innerWidth >= 640);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  // Function to handle logout
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.href = "/";
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLarge(window.innerWidth >= 640);
+    };
 
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+    window.addEventListener("resize", handleResize);
 
-  const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
-  };
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -42,16 +33,25 @@ const Navbar: React.FC = () => {
               <Link to="/">Peer Tutoring</Link>
             </h1>
           </div>
-          <div className="sm:hidden">
-            <Button
-              variant={"outline"}
-              size={"icon"}
-              onClick={toggleMenu}
-              className="border-none bg-gray-700"
-            >
-              {!isOpen ? <Menu /> : <X />}
-            </Button>
-          </div>
+
+          {localStorage.getItem("isAuthenticated") ? (
+            !isLarge ? (
+              <AvatarMenu />
+            ) : (
+              <></>
+            )
+          ) : (
+            <div className="sm:hidden">
+              <Button
+                variant={"outline"}
+                size={"icon"}
+                onClick={toggleMenu}
+                className="border-none bg-gray-700"
+              >
+                {!isOpen ? <Menu /> : <X />}
+              </Button>
+            </div>
+          )}
         </div>
         <nav
           className={`${
@@ -65,32 +65,7 @@ const Navbar: React.FC = () => {
             <Button className="hover:bg-gray-700">Booking</Button>
           </Link>
           {localStorage.getItem("isAuthenticated") ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar>
-                  <AvatarFallback className=" bg-white text-black">
-                    {initials ? initials : ""}
-                  </AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link to="/">Dashboard</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link to="/" onClick={toggleDrawer}>
-                    <EditProfile />
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link to="/" onClick={handleLogout}>
-                    Logout
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <AvatarMenu />
           ) : (
             <>
               <Link
