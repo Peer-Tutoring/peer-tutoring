@@ -8,14 +8,21 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import BookSession from "@/components/BookSession";
 
 interface BookingCardProps {
+  tutor_id: number;
   name: string;
   role: string;
   hourlyRate: number;
 }
 
-const BookingCard = ({ name, role, hourlyRate }: BookingCardProps) => {
+const BookingCard = ({
+  tutor_id,
+  name,
+  role,
+  hourlyRate,
+}: BookingCardProps) => {
   return (
     <Card>
       <CardHeader>
@@ -42,7 +49,11 @@ const BookingCard = ({ name, role, hourlyRate }: BookingCardProps) => {
       </CardContent>
       <CardFooter>
         {localStorage.getItem("isAuthenticated") ? (
-          <Button>Book</Button>
+          localStorage.getItem("rate") ? (
+            ""
+          ) : (
+            <BookSession tutor_id={tutor_id} hourlyRate={hourlyRate} />
+          )
         ) : (
           <Button asChild>
             <Link to="/auth/login">Login to Book</Link>

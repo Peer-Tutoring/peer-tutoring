@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import BookingCard from "@/components/booking/BookingCard";
 
 const BookingPage = () => {
-  const [tutors, setTutors] = useState([{ name: "", role: "", hourlyRate: 0 }]);
+  const [tutors, setTutors] = useState([
+    { tutor_id: 0, name: "", role: "", hourlyRate: 0 },
+  ]);
 
   useEffect(() => {
     fetch("http://localhost/peer-tutoring/backend/tutors.php")

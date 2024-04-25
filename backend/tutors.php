@@ -5,7 +5,7 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 require_once('db.php');
 
-$query = "SELECT first_name, last_name, subject, rate FROM tutor ORDER BY first_name";
+$query = "SELECT tutor_id, first_name, last_name, subject, rate FROM tutor ORDER BY first_name";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
@@ -16,6 +16,7 @@ if ($result) {
 
     // Build the array of tutors with the required fields
     $tutors[] = array(
+      'tutor_id' => $row['tutor_id'],
       'name' => $name,
       'role' => $row['subject'],
       'hourlyRate' => $row['rate']
