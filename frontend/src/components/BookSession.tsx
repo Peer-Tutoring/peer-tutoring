@@ -119,7 +119,7 @@ function ProfileForm({ className, tutor_id, hourlyRate }: ProfileFormProps) {
     starting_time: z.string().min(1, { message: "Please select a subject." }),
     duration: z.coerce
       .number()
-      .min(0, { message: "Number of Hours must be a positive number." })
+      .min(1, { message: "Number of Hours must be a positive number." })
       .max(4, { message: "Session should be less than 4 hours" }),
   });
 
@@ -138,7 +138,6 @@ function ProfileForm({ className, tutor_id, hourlyRate }: ProfileFormProps) {
       tutor_id: tutor_id,
       rate: hourlyRate,
     };
-    console.log(formData);
     try {
       const response = await fetch(
         "http://localhost/peer-tutoring/backend/book-session.php",
@@ -152,12 +151,9 @@ function ProfileForm({ className, tutor_id, hourlyRate }: ProfileFormProps) {
       );
       const data = await response.json();
       if (data.success) {
-        console.log(data.message);
-        console.log("Session Booked Successfully.");
         window.location.href = "/booking";
       } else {
         console.log(data.message);
-        console.log("test");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -197,7 +193,7 @@ function ProfileForm({ className, tutor_id, hourlyRate }: ProfileFormProps) {
             <FormItem>
               <FormLabel>Duration in hours</FormLabel>
               <FormControl>
-                <Input {...field} id="duration" type="number" min="0" max="4" />
+                <Input {...field} id="duration" type="number" min="1" max="4" />
               </FormControl>
               <FormDescription />
               <FormMessage />
