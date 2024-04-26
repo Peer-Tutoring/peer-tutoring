@@ -153,7 +153,7 @@ function ProfileForm({ tutor_id, hourlyRate }: ProfileFormProps) {
       });
       const data = await response.json();
       if (data.success) {
-        navigate("/booking");
+        window.location.reload();
       } else {
         console.log(data.message);
       }
