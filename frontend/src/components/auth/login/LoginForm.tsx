@@ -106,7 +106,7 @@ const LoginForm = () => {
   return (
     <>
       {showAlert && (
-        <div className="fixed top-3 flex justify-center backdrop-blur-sm backdrop-filter">
+        <div className="fixed bottom-4 right-4 flex justify-center rounded-lg backdrop-blur-lg">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>

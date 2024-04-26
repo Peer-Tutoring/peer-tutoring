@@ -129,14 +129,12 @@ const TutorRegister = () => {
   return (
     <>
       {showAlert && (
-        <div className="flex w-full justify-center">
-          <div className="fixed top-3 flex justify-center backdrop-blur-sm backdrop-filter">
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          </div>
+        <div className="fixed bottom-4 right-4 flex justify-center rounded-lg backdrop-blur-lg">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
         </div>
       )}
       <Card>
