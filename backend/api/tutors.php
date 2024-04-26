@@ -3,7 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
-require_once('db.php');
+require_once('../config/db.php');
 
 $query = "SELECT tutor_id, first_name, last_name, subject, rate FROM tutor ORDER BY first_name";
 $result = mysqli_query($conn, $query);

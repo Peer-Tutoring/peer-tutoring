@@ -4,7 +4,7 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  require_once('db.php');
+  require_once('../config/db.php');
 
   // Read raw JSON data from the request body
   $inputData = file_get_contents('php://input');

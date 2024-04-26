@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
-require_once('db.php');
+require_once('../config/db.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $inputData = file_get_contents('php://input');
