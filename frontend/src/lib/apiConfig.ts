@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_BACKEND_API_URL as string;
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_API_URL as string}api/`;
 
 export const API_ENDPOINTS = {
   LOGIN: API_BASE_URL + "login.php",
