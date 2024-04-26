@@ -24,7 +24,9 @@ const AvatarMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarFallback>{initials && initials}</AvatarFallback>
+          <AvatarFallback className="bg-primary text-primary-foreground">
+            {initials && initials}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={10}>

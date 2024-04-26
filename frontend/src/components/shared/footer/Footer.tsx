@@ -4,7 +4,7 @@ import { School } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary px-4 py-8 text-primary-foreground md:px-6">
+    <footer className="border-t-2 px-4 py-8 md:px-6">
       <div className="container mx-auto flex flex-col items-center justify-between md:flex-row">
         <Link
           className="flex items-center transition-transform hover:scale-105"
