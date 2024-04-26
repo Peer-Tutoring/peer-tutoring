@@ -20,10 +20,11 @@ const teamList = [
 
 const Team = () => {
   return (
-    <section id="team" className="container pb-24 sm:pb-32">
+    <section id="team" className="container pb-24 text-center sm:pb-32">
       <h2 className="text-3xl font-bold md:text-4xl">
-        <span className="bg-gradient-to-b from-primary/60 to-primary bg-clip-text text-transparent">
-          Our Dedicated{" "}
+        Our{" "}
+        <span className="bg-gradient-to-r from-primary/85 to-primary bg-clip-text text-transparent">
+          Dedicated{" "}
         </span>
         Crew
       </h2>
@@ -33,7 +34,7 @@ const Team = () => {
         seamless academic experiences tailored to your needs.
       </p>
 
-      <div className="grid gap-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-8 gap-y-10 md:grid-cols-2">
         {teamList.map(({ name, position }) => (
           <Card
             key={name}

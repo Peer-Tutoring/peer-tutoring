@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from "react";
+
 import ReactDOM from "react-dom/client";
 
 import "./main.css";
@@ -16,9 +17,6 @@ const DashboardPage = lazy(() => import("@/routes/dashboard/page.tsx"));
 
 const LoginPage = lazy(() => import("@/routes/auth/login/page.tsx"));
 const RegisterPage = lazy(() => import("@/routes/auth/register/page.tsx"));
-const ForgotPasswordPage = lazy(
-  () => import("@/routes/auth/forgot-password/page.tsx"),
-);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -35,10 +33,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route element={<UnprotectedRoute />}>
             <Route path="/auth/login" element={<LoginPage />} />
             <Route path="/auth/register" element={<RegisterPage />} />
-            <Route
-              path="/auth/forgot-password"
-              element={<ForgotPasswordPage />}
-            />
           </Route>
         </Routes>
       </BrowserRouter>

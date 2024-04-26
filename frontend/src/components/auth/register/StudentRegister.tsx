@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,6 +32,8 @@ import { API_ENDPOINTS } from "@/lib/apiConfig";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
 const StudentRegister = () => {
+  const navigate = useNavigate();
+
   const [error, setError] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [toggle, setToggle] = useState(false);
@@ -97,7 +100,8 @@ const StudentRegister = () => {
       if (data.success) {
         setError("");
         setShowAlert(false);
-        window.location.href = "/auth/login";
+
+        navigate("/auth/login");
       } else {
         setError(`${data.message}. Please try again.`);
         setToggle(!toggle);
@@ -123,11 +127,9 @@ const StudentRegister = () => {
         </div>
       )}
 
-      <Card className="mx-auto max-w-sm">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-xxl text-center">
-            Register as a Student!
-          </CardTitle>
+          <CardTitle>Register as a Student!</CardTitle>
           <CardDescription>
             Enter your information to create an account
           </CardDescription>
@@ -186,7 +188,6 @@ const StudentRegister = () => {
                         {...field}
                         type="email"
                         id="signup-email"
-                        placeholder="peer@example.com"
                         required
                       />
                     </FormControl>
@@ -216,9 +217,9 @@ const StudentRegister = () => {
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? (
-                            <EyeOff className="h-5 w-5 text-gray-500" />
+                            <EyeOff className="h-5 w-5" />
                           ) : (
-                            <Eye className="h-5 w-5 text-gray-500" />
+                            <Eye className="h-5 w-5" />
                           )}
                         </button>
                       </div>
@@ -235,7 +236,10 @@ const StudentRegister = () => {
           </Form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
-            <Link to="/auth/login" className="underline">
+            <Link
+              to="/auth/login"
+              className="underline-offset-1 hover:underline"
+            >
               Sign in
             </Link>
           </div>

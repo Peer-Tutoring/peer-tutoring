@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import { Link } from "react-router-dom";
 
 import {
@@ -22,40 +20,25 @@ const AvatarMenu = () => {
     location.reload();
   };
 
-  const [isLarge, setIsLarge] = useState(window.innerWidth >= 640);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsLarge(window.innerWidth >= 640);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarFallback className="bg-white text-black">
-            {initials && initials}
-          </AvatarFallback>
+          <AvatarFallback>{initials && initials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end" sideOffset={10}>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link to="/dashboard">Dashboard</Link>
         </DropdownMenuItem>
-        {!isLarge && (
-          <DropdownMenuItem>
-            <Link to="/booking">Booking</Link>
-          </DropdownMenuItem>
-        )}
+        <DropdownMenuItem>
+          <Link to="/booking">Booking</Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+
         <DropdownMenuItem>
           <Link to="/" onClick={handleLogout}>
             Logout

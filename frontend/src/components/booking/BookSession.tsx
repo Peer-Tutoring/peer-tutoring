@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -100,6 +102,8 @@ interface ProfileFormProps extends React.ComponentProps<"form"> {
 }
 
 function ProfileForm({ tutor_id, hourlyRate }: ProfileFormProps) {
+  const navigate = useNavigate();
+
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
 
@@ -149,7 +153,7 @@ function ProfileForm({ tutor_id, hourlyRate }: ProfileFormProps) {
       });
       const data = await response.json();
       if (data.success) {
-        window.location.href = "/booking";
+        navigate("/booking");
       } else {
         console.log(data.message);
       }

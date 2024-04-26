@@ -1,11 +1,15 @@
-import { Navbar, Hero, Team } from "@/components/landing/index";
+import Header from "@/components/shared/header/Header";
+import Footer from "./components/shared/footer/Footer";
+
+import { Hero, Team } from "@/components/landing/index";
 
 function RootPage() {
   return (
     <>
-      <Navbar />
+      <Header />
       <Hero />
       <Team />
+      <Footer />
     </>
   );
 }
