@@ -9,7 +9,7 @@ import {
 
 export const HeroCards = () => {
   return (
-    <div className="relative hidden h-[500px] w-[600px] flex-row flex-wrap gap-8 lg:flex">
+    <div className="relative hidden h-[500px] w-[535px] flex-row flex-wrap gap-8 lg:flex">
       {/* Testimonial */}
       <Card className="absolute -top-[15px] w-[340px] shadow-primary/30 drop-shadow-xl">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">

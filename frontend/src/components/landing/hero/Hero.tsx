@@ -5,8 +5,8 @@ import { HeroCards } from "./parts/HeroCards";
 
 const Hero = () => {
   return (
-    <section className="container grid place-items-center gap-4 py-16 md:py-24 lg:grid-cols-2">
-      <div className="space-y-6 text-center lg:text-start">
+    <section className="container grid place-items-center gap-4 py-16 md:py-24 lg:grid-cols-2 xl:px-0">
+      <div className="space-y-6 text-center lg:text-left">
         <main className="text-5xl font-bold capitalize md:text-6xl">
           <h1 className="inline">
             <span className="inline bg-gradient-to-r from-primary/60 to-primary bg-clip-text text-transparent">
