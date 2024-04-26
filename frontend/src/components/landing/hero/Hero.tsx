@@ -26,23 +26,13 @@ const Hero = () => {
           Say goodbye to academic challenges and hello to success!
         </p>
 
-        {!localStorage.getItem("isAuthenticated") ? (
-          <Button
-            size={"lg"}
-            className="w-full text-lg font-semibold md:w-1/3"
-            asChild
-          >
-            <Link to="auth/register">Get Started</Link>
-          </Button>
-        ) : (
-          <Button
-            size={"lg"}
-            className="w-full text-lg font-semibold md:w-1/3"
-            asChild
-          >
-            <Link to="booking">Book Now</Link>
-          </Button>
-        )}
+        <Button
+          size={"lg"}
+          className="w-full text-lg font-semibold md:w-1/3"
+          asChild
+        >
+          <Link to="booking">Book Now</Link>
+        </Button>
       </div>
 
       <HeroCards />
