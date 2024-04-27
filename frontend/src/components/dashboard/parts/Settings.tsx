@@ -24,11 +24,18 @@ const Settings = () => {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
-            <Input defaultValue="John Doe" id="name" />
+            <Input
+              defaultValue={`${localStorage.getItem("firstName")} ${localStorage.getItem("lastName")}`}
+              id="name"
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input defaultValue="john@example.com" id="email" type="email" />
+            <Input
+              defaultValue={`${localStorage.getItem("email")}`}
+              id="email"
+              type="email"
+            />
           </div>
         </CardContent>
         <CardFooter>
