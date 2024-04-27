@@ -3,6 +3,7 @@ import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 
 import "./main.css";
+import "unfonts.css";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 

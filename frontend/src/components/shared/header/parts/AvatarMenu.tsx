@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   DropdownMenu,
@@ -11,8 +11,15 @@ import {
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
+import { Calendar, LogOut, Monitor } from "lucide-react";
+
 const AvatarMenu = () => {
+  const navigate = useNavigate();
+
   const initials = `${localStorage.getItem("firstName")?.charAt(0).toUpperCase()}${localStorage.getItem("lastName")?.charAt(0).toUpperCase()}`;
+
+  const name = `${localStorage.getItem("firstName")} ${localStorage.getItem("lastName")}`;
+  const email = localStorage.getItem("email");
 
   // Function to handle logout
   const handleLogout = () => {
@@ -30,21 +37,27 @@ const AvatarMenu = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={10}>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          <div className="flex flex-col gap-y-1">
+            <span className="text-sm font-medium leading-none">{name}</span>
+            <span className="text-xs leading-none text-muted-foreground">
+              {email}
+            </span>
+          </div>
+        </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link to="/dashboard">Dashboard</Link>
+        <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+          <Monitor className="mr-2 h-4 w-4" /> Dashboard
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Link to="/booking">Booking</Link>
+        <DropdownMenuItem onClick={() => navigate("/booking")}>
+          <Calendar className="mr-2 h-4 w-4" /> Booking
         </DropdownMenuItem>
+
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-          <Link to="/" onClick={handleLogout}>
-            Logout
-          </Link>
+        <DropdownMenuItem onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" /> Logout
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
