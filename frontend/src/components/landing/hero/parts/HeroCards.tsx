@@ -34,10 +34,7 @@ export const HeroCards = () => {
         </CardHeader>
 
         <CardContent className="pb-2 text-center">
-          <p>
-            I managed to Ace most of my exams thanks to the help of the tutors
-            here!
-          </p>
+          <p>I Aced all of my exams thanks to the help of the tutors here!</p>
         </CardContent>
         <CardFooter />
       </Card>
