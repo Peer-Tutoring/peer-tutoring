@@ -6,4 +6,5 @@ export const API_ENDPOINTS = {
   TUTOR_REGISTER: API_BASE_URL + "tutor-register.php",
   TUTORS: API_BASE_URL + "tutors.php",
   BOOK_SESSION: API_BASE_URL + "book-session.php",
+  SESSIONS: API_BASE_URL + "sessions.php",
 };

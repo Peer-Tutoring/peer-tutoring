@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -13,47 +14,48 @@ import { Card } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 
 import { Calendar, FileEdit, Plus, Trash } from "lucide-react";
+import { API_ENDPOINTS } from "@/lib/apiConfig";
 
-const Sessions = () => {
-  const sessions = [
+const session = () => {
+  const [session, setSession] = useState([
     {
-      tutorName: "John Doe",
-      tutorInitials: "JD",
-      tutorSpecialty: "Math Tutor",
-      date: "April 26, 2024",
-      time: "4:00 PM - 5:00 PM",
-      avatarSrc: "/placeholder.jpg",
+      tutor_name: "",
+      student_name: "",
+      tutor_initials: "",
+      student_initials: "",
+      subject: "",
+      session_date: "",
+      session_time: "",
     },
-    {
-      tutorName: "Jane Smith",
-      tutorInitials: "JS",
-      tutorSpecialty: "Physics Tutor",
-      date: "April 27, 2024",
-      time: "2:00 PM - 3:00 PM",
-      avatarSrc: "/placeholder.jpg",
-    },
-    {
-      tutorName: "John Doe",
-      tutorInitials: "JD",
-      tutorSpecialty: "Programing Tutor",
-      date: "April 26, 2024",
-      time: "4:00 PM - 5:00 PM",
-      avatarSrc: "/placeholder.jpg",
-    },
-    {
-      tutorName: "Jane Smith",
-      tutorInitials: "JS",
-      tutorSpecialty: "English Tutor",
-      date: "April 27, 2024",
-      time: "2:00 PM - 3:00 PM",
-      avatarSrc: "/placeholder.jpg",
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+
+    if (userId) {
+      fetch(API_ENDPOINTS.SESSIONS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_id: userId }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setSession(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching session data:", error);
+        });
+    } else {
+      console.error("Student ID is not available in local storage.");
+    }
+  }, []);
 
   return (
     <div className="min-h-screen p-6 md:p-10">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Booked Sessions</h1>
+        <h1 className="text-2xl font-bold">Booked sessions</h1>
         <Link to="/booking" className={buttonVariants({ variant: "default" })}>
           <Plus className="mr-2 h-4 w-4" />
           Schedule New Session
@@ -63,22 +65,27 @@ const Sessions = () => {
         <Table className="w-full">
           <TableHeader>
             <TableRow>
-              <TableHead className="hidden sm:table-cell">Tutor</TableHead>
-              <TableHead className="hidden md:table-cell">Date</TableHead>
+              <TableHead className="hidden sm:table-cell">
+                {localStorage.getItem("rate") ? "Student" : "Tutor"}
+              </TableHead>
+              <TableHead className="hidden md:table-cell">
+                Session Date
+              </TableHead>
               <TableHead className="hidden md:table-cell">Time</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sessions.map(
+            {session.map(
               (
                 {
-                  tutorName,
-                  tutorInitials,
-                  tutorSpecialty,
-                  date,
-                  time,
-                  avatarSrc,
+                  tutor_name,
+                  tutor_initials,
+                  subject,
+                  session_date,
+                  session_time,
+                  student_initials,
+                  student_name,
                 },
                 idx,
               ) => (
@@ -86,22 +93,31 @@ const Sessions = () => {
                   <TableCell className="block sm:table-cell">
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage
-                          src={avatarSrc}
-                          alt={`Avatar of ${tutorName}`}
-                        />
-                        <AvatarFallback>{tutorInitials}</AvatarFallback>
+                        <AvatarImage />
+                        <AvatarFallback>
+                          {localStorage.getItem("rate")
+                            ? student_initials
+                            : tutor_initials}
+                        </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="font-medium">{tutorName}</div>
+                        <div className="font-medium">
+                          {localStorage.getItem("rate")
+                            ? student_name
+                            : tutor_name}
+                        </div>
                         <div className="text-sm text-muted-foreground">
-                          {tutorSpecialty}
+                          {subject}
                         </div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell">{date}</TableCell>
-                  <TableCell className="hidden md:table-cell">{time}</TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {session_date}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {session_time}
+                  </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Button size="icon" variant="outline">
@@ -132,4 +148,4 @@ const Sessions = () => {
   );
 };
 
-export default Sessions;
+export default session;
