@@ -13,8 +13,9 @@ import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 
-import { Calendar, FileEdit, Plus, Trash } from "lucide-react";
+import { Calendar, FileEdit, Plus } from "lucide-react";
 import { API_ENDPOINTS } from "@/lib/apiConfig";
+import DeleteSession from "./parts/DeleteSession";
 
 const session = () => {
   const [session, setSession] = useState([
@@ -26,6 +27,7 @@ const session = () => {
       subject: "",
       session_date: "",
       session_time: "",
+      session_id: 0,
     },
   ]);
 
@@ -86,6 +88,7 @@ const session = () => {
                   session_time,
                   student_initials,
                   student_name,
+                  session_id,
                 },
                 idx,
               ) => (
@@ -128,14 +131,8 @@ const session = () => {
                         <Calendar className="h-4 w-4" />
                         <span className="sr-only">Reschedule</span>
                       </Button>
-                      <Button
-                        className="text-destructive"
-                        size="icon"
-                        variant="outline"
-                      >
-                        <Trash className="h-4 w-4" />
-                        <span className="sr-only">Cancel</span>
-                      </Button>
+
+                      <DeleteSession session_id={session_id} />
                     </div>
                   </TableCell>
                 </TableRow>

@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $data['user_id'];
 
     $query = "SELECT 
+                s.session_id,
                 s.starting_time,
                 s.duration,
                 CONCAT(t.first_name, ' ', t.last_name) AS tutor_name,
@@ -44,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $session_time = date('g:i A', $starting_time) . " - " . $end_time_formatted;
 
         $sessions[] = array(
+          'session_id' => $row['session_id'],
           'session_date' => $session_date,
           'session_time' => $session_time,
           'tutor_name' => $row['tutor_name'],
