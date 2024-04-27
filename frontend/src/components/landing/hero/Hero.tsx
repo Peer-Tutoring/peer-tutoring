@@ -31,7 +31,11 @@ const Hero = () => {
           className="w-full text-lg font-semibold md:w-1/3"
           asChild
         >
-          <Link to="booking">Book Now</Link>
+          {localStorage.getItem("isAuthenticated") ? (
+            <Link to="booking">Book Now</Link>
+          ) : (
+            <Link to="auth/register">Get Started</Link>
+          )}
         </Button>
       </div>
 
