@@ -8,4 +8,5 @@ export const API_ENDPOINTS = {
   BOOK_SESSION: API_BASE_URL + "book-session.php",
   SESSIONS: API_BASE_URL + "sessions.php",
   DELETE_SESSION: API_BASE_URL + "delete-session.php",
+  EDIT_PROFILE: API_BASE_URL + "edit-profile.php",
 };
