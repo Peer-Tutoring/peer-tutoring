@@ -173,7 +173,7 @@ function ProfileForm({ tutor_id, hourlyRate }: ProfileFormProps) {
           name="starting_time"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>StartingTime</FormLabel>
+              <FormLabel>Starting Time</FormLabel>
               <FormControl>
                 <Input
                   {...field}
