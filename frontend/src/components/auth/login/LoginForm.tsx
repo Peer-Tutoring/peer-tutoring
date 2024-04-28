@@ -40,12 +40,25 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const formSchema = z.object({
-    email: z.string().min(2, {
-      message: "Username/Email must be at least 2 characters.",
-    }),
-    password: z.string().min(8, {
-      message: "Password must be at least 8 characters.",
-    }),
+    email: z
+      .string()
+      .min(1, { message: "This field has to be filled." })
+      .email("This is not a valid email."),
+    password: z
+      .string()
+      .min(8, {
+        message: "Password must be at least 8 characters.",
+      })
+      .regex(new RegExp(".*[A-Z].*"), {
+        message: "Password must contain at least one uppercase letter.",
+      })
+      .regex(new RegExp(".*[0-9].*"), {
+        message: "Password must contain at least one number.",
+      })
+      .regex(new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"), {
+        message: "Password must contain at least one special character.",
+      })
+      .trim(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
