@@ -272,7 +272,13 @@ const TutorRegister = () => {
                   <FormItem>
                     <FormLabel>SAR per hour</FormLabel>
                     <FormControl>
-                      <Input {...field} type="number" id="rate" required />
+                      <Input
+                        {...field}
+                        type="number"
+                        id="rate"
+                        min="0"
+                        required
+                      />
                     </FormControl>
                     <FormDescription />
                     <FormMessage />
